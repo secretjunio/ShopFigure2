@@ -1,0 +1,69 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Thêm thể loại</h1>
+<form action="/Admin/Category/CreateCategory" method="post" enctype="multipart/form-data">
+    <table>
+        <tr hidden>
+            <td>
+                ID thể loại
+            </td>
+            <td>
+                <input type="text" name="IDCategory" value="0" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Tên thể loại
+            </td>
+            <td>
+                <input type="text" name="CategoryName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Số lượng
+            </td>
+            <td>
+                <input type="text" name="Number" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Mô tả
+            </td>
+            <td>
+                <input type="text" name="Describe" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Hình ảnh
+            </td>
+            <td>
+                <input name="ImagePath" type="file" multiple>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Parent Category
+            </td>
+            <td>
+                <select name="ParentCategory">
+                    <option value="null">null</option>
+                    @foreach( var i in Model.Categories)
+                    {
+                        <option>@i.CategoryName</option>
+                    }
+                </select>
+                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button>Xác nhận</button></td>
+        </tr>
+    </table>
+</form>

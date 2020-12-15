@@ -1,0 +1,91 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Thêm sản phẩm</h1>
+<form action="/Admin/Product/CreateTest" method="post" enctype="multipart/form-data">
+    <div hidden>
+        <label>ID sản phẩm</label>
+        <input name="IDProduct" value="0" type="text" />
+    </div>
+    <div class="form-group">
+        <label>Tên sản phẩm</label>
+        <input class="form-control" asp-for="@Model.P.ProductName" />
+        @Html.ValidationMessageFor(model => model.P.ProductName)
+    </div>
+    <div class="form-group">
+        <label>Hình ảnh</label>
+        <input class="form-control-file" asp-for="@Model.P.ImagePath" type="file"> <!-- chỉ được phép upload 1 file -->
+        @Html.ValidationMessageFor(model => model.P.ImagePath)
+    </div>
+    <div class="form-group">
+        <label>Đơn giá</label>
+        <input class="form-control" asp-for="@Model.P.Price" type="text" />
+        @Html.ValidationMessageFor(model => model.P.Price)
+    </div>
+    <div class="form-group">
+        <label>Đơn giá mới</label>
+        <input class="form-control" asp-for="@Model.P.NewPrice" type="text" />
+        @Html.ValidationMessageFor(model => model.P.NewPrice)
+    </div>
+    <div class="form-group">
+        <label>Ngày ra mắt</label>
+        <input class="form-control" asp-for="@Model.P.ReleaseDate" type="date" />
+        @Html.ValidationMessageFor(model => model.P.ReleaseDate)
+    </div>
+    <div class="form-group">
+        <label>Số lượng</label> 
+        <input class="form-control" asp-for="@Model.P.Number" type="text" />
+        @Html.ValidationMessageFor(model => model.P.Number)
+    </div>
+    <div class="form-group">
+        <label>Mô tả</label>
+        <textarea class="md-textarea form-control" rows="10" cols="150" asp-for="@Model.P.Describe"></textarea>
+        @Html.ValidationMessageFor(model => model.P.Describe)
+    </div>
+    <div class="form-group">
+        <label>Hình ảnh chi tiết 1</label>
+        <input class="form-control-file" asp-for="@Model.P.Image1" type="file">
+        @Html.ValidationMessageFor(model => model.P.Image1)
+    </div>
+    <div class="form-group">
+        <label>Hình ảnh chi tiết 2</label>
+        <input class="form-control-file" asp-for="@Model.P.Image2" type="file">
+        @Html.ValidationMessageFor(model => model.P.Image2)
+    </div>
+    <div class="form-group">
+        <label>Hình ảnh chi tiết 3</label>
+        <input class="form-control-file" asp-for="@Model.P.Image3" type="file">
+        @Html.ValidationMessageFor(model => model.P.Image3)
+    </div>
+    <div class="form-group">
+        <label>Thể loại</label>
+        <select class="form-control" name="CategoryName">
+            @foreach (Category cat in Model.Categories)
+            {
+                <option value="@cat.CategoryName">@cat.CategoryName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Nhà cung cấp</label>
+        <select class="form-control" name="SupplierName">
+            @foreach (Supplier sup in Model.Suppliers)
+            {
+                <option value="@sup.SupplierName">@sup.SupplierName</option>
+            }
+        </select>
+        @Html.ValidationMessageFor(model => model.P.Image2)
+    </div>
+    <div class="form-group">
+        <label>Sản phẩm mới</label>
+        <select class="form-control" name="isNew">
+            <option>Có</option>
+            <option>Không</option>
+        </select>
+    </div>
+    <button class="btn btn-primary mb-2" type="submit">Xác nhận</button>
+</form>

@@ -1,0 +1,59 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h1 style="color:black;text-align:center">SẢN PHẨM CÒN LẠI TRONG KHO</h1>
+        </div>
+    
+        <style>
+            .title td {
+                color: black;
+                font-weight: bold;
+                padding: 1px 5px 1px 5px;
+                text-align: center;
+            }
+
+            .title {
+                background-color: dodgerblue;
+            }
+        </style>
+        <table align="center" border="1">
+            <tr class="title">
+                <td>ID sản phẩm</td>
+                <td>Tên sản phẩm</td>
+                <td>Số lượng còn</td>
+                <td>Đơn giá(VNĐ)</td>
+                <td>Ngày nhập kho</td>
+                <td>Mô tả</td>
+                <td>Hình ảnh</td>
+            </tr>
+            @{
+                float sum = 0;
+            }
+            @foreach (var i in Model.Products)
+            {
+        <tr>
+            <td>@i.IDProduct</td>
+            <td>@i.ProductName</td>
+            @if (i.Number <= 0)
+            {
+                <td>Hết</td>
+            }
+            else
+            {
+                <td>@i.Number</td>
+            }
+
+            <td style="color:red">@i.Price.ToString("#,##0").Replace(",", ".")</td>
+
+            <td>@i.ReleaseDate</td>
+            <td>@i.Describe</td>
+            <td><img height="100" width="100" src="~/imagesUser/Product/@i.ImagePath" /></td>
+        </tr>
+                
+            }
+           
+        </table>
+    </div>
+</div>

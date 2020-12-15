@@ -1,0 +1,80 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="margin-top:20px">
+    <h1 style="text-align:center;font-weight:bold">Chi tiết sản phẩm</h1>
+    <form style="margin-top:50px;margin-bottom:50px">
+        <div class="container">
+            <div class="row">
+                <div style="text-align:center" class="col-lg-6 col-md-6 col-sm-6">
+                    
+                    <div class="fotorama" data-transition="slide" data-clicktransition="crossfade" style="width:350px;height:550px">
+                        <img src="~/imagesUser/Product/@Model.getProduct.ImagePath" alt="sản phẩm @Model.getProduct.ProductName" />
+                        <img src="~/imagesUser/Product/@Model.getProduct.Image1" alt="sản phẩm @Model.getProduct.ProductName">
+                        <img src="~/imagesUser/Product/@Model.getProduct.Image2" alt="sản phẩm @Model.getProduct.ProductName">
+                        <img src="~/imagesUser/Product/@Model.getProduct.Image3" alt="sản phẩm @Model.getProduct.ProductName">
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <dl>
+                        <dt>Tên sản phẩm:</dt>
+                        <dd>@Model.getProduct.ProductName</dd>
+                    </dl>
+                    <dl>
+                        <dt>Mô tả:</dt>
+                        <dd>@Model.getProduct.Describe</dd>
+                    </dl>
+                    <dl>
+                        <dt>Số lượng:</dt>
+                        <dd>@Model.getProduct.Number</dd>
+                    </dl>
+                    <div class="rating-stars">
+                        <label style="font-weight:bold">Đánh giá:</label> &nbsp;
+                            <i class="fas fa-star fa-sm text-primary"></i>
+                            <i class="fas fa-star fa-sm text-primary"></i>
+                            <i class="fas fa-star fa-sm text-primary"></i>
+                            <i class="fas fa-star fa-sm text-primary"></i>
+                            <i class="far fa-star fa-sm text-primary"></i>
+                    </div>
+                    <dl>
+                        <dt>Giá:</dt>
+                        <dd><b style="color:red; float: left">@Model.getProduct.Price.ToString("#,##0").Replace(",", ".") VNĐ</b></dd>
+                    </dl>
+                    <br />
+                    <hr>
+                    <dl>
+                        <dt>Danh mục:</dt>
+                        <dd>
+                            @foreach (Category i in Model.Categories)
+                            {
+                                if (i.IDCategory.Equals(Model.getProduct.IDCategory))
+                                {
+
+                                    @i.CategoryName
+                                }
+                            }
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>Nhà cung cấp:</dt>
+                        <dd>
+                            @foreach (Supplier i in Model.Suppliers)
+                            {
+                                if (i.IDSupplier.Equals(Model.getProduct.IDSupplier))
+                                {
+                                    <p>@i.SupplierName</p>
+                                }
+                            }
+                        </dd>
+                    </dl>
+                    <a role="button" asp-controller="Product" asp-action="addCart" asp-route-id="@Model.getProduct.IDProduct" class="addProduct btn btn-primary">Thêm vào giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

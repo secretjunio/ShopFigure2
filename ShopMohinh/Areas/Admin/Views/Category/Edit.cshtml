@@ -1,0 +1,55 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Edit</h1>
+<form action="/Admin/Category/EditCategory" method="post" enctype="multipart/form-data">
+    <table>
+        <tr hidden>
+
+            <td><input name="IDCategory" type="text" value="@Model.getCategory.IDCategory" /></td>
+        </tr>
+        <tr>
+            <td>Tên thể loại</td>
+            <td><input name="CategoryName" value="@Model.getCategory.CategoryName" /></td>
+        </tr>
+        <tr>
+            <td>Số lượng</td>
+            <td><input value="@Model.getCategory.Number" name="Number" type="text" /></td>
+        </tr>
+        <tr>
+
+            <td>Hình ảnh</td>
+            <td>
+                <input asp-for="@Model.getCategory" value="@Model.getCategory.ImagePath" name="ImagePath" type="file" multiple>              
+            </td>
+        </tr>
+        <tr>
+            <td>Mô tả</td>
+            <td><input name="Describe" type="text" value="@Model.getCategory.Describe" /></td>
+        </tr>
+        <tr>
+            <td>Thể loại cha</td>
+            <td>
+                <select name="ParentCategory">
+                    <option>
+                        0
+                    </option>
+                    @foreach (var i in Model.Categories)
+                    {
+                        if (i.ParentIDCategory == 0)
+                        {
+                            <option>@i.CategoryName</option>
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">Xác nhận</button></td>
+        </tr>
+    </table>
+</form>
+

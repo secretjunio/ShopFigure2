@@ -1,0 +1,80 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<a asp-controller="Product" asp-action="Create" asp-area="Admin">Thêm sản phẩm</a> |
+
+    <table border="1" align="center">
+        <tr style="color:red;background-color:aquamarine">
+            <td>ID</td>
+            <td>Tên sản phẩm</td>
+            <td>Ngày SX</td>
+            <td>Số lượng</td>
+            <td>Đơn giá </td>
+            <td>Đơn giá mới </td>
+            <td>Hình ảnh</td>
+            <td>Mô tả</td>
+            <td>Thể loại</td>
+            <td>Nhà cung cấp</td>
+            <td>Tuỳ chọn</td>
+        </tr>
+        @{
+            if (Model.Products == null)
+            {
+                <tr>Không có sản phẩm nào</tr>
+            }
+            else
+            {
+                foreach (Product item in Model.Products)
+                {
+    <tr>
+        <td>
+            @item.IDProduct
+        </td>
+        <td>@item.ProductName</td>
+        <td>@item.ReleaseDate</td>
+        <td>@item.Number</td>
+        <td>@item.Price</td>
+        <td>@item.NewPrice</td>
+        <td><img height="100" width="100" src="~/imagesUser/Product/@item.ImagePath" asp-append-version="true" /></td>
+        <td>@item.Describe</td>
+
+        @foreach (Category j in Model.Categories)
+        {
+            if (j.IDCategory == item.IDCategory)
+            {
+                <td>@j.CategoryName</td>
+            }
+        }
+        @foreach (Supplier j in Model.Suppliers)
+        {
+            if (j.IDSupplier == item.IDSupplier)
+            {
+                <td>@j.SupplierName</td>
+            }
+        }
+
+        <td>
+            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.IDProduct">Edit</a>
+            <a asp-controller="Product" asp-action="Delete" onclick="return CheckDelete()" asp-route-id="@item.IDProduct">Delete</a>
+        </td>
+    </tr>
+
+                }
+            }
+        }
+    </table>
+
+<script type="text/javascript">
+    function CheckDelete() {
+        var p = confirm("Bạn có chắc muốn xoá hay không!");
+        if (!p) {
+            return false;
+        }
+    }
+</script>
+

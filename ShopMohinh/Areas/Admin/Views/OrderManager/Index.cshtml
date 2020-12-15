@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ShopMohinh.ViewModel.ModelView
+<partial name="_HeaderOrderManager">
+<div class="container">
+    <div class="row">
+        @if (Model.OrderBills != null)
+        {
+            <table style="border-radius:5px" border="1">
+                <tr>
+
+                    <td>ID Hoá Đơn</td>
+                    <td>Khách hàng</td>
+                    <td>SĐT</td>
+                    <td>Địa chỉ giao hàng</td>
+                    <td>Ngày đặt hàng</td>
+                    <td>Phí ship </td>
+                    <td>Trạng thái đơn hàng</td>
+                    <td>Tổng giá trị</td>
+                    <td>Chi tiết</td>
+                    <td>Xử lý</td>
+                </tr>
+                @{
+
+                    double total = 0;
+                    foreach (var i in Model.OrderBills)
+                    {
+                        <tr>
+
+                            <td>@i.IDOrder</td>
+                            <td>@i.FullName</td>
+                            <td>@i.Phone</td>
+                            <td>@i.Address</td>
+                            <td>@i.OrderDate</td>
+                            @if (i.ShipFee == 0)
+                            {
+                                <td style="color:red">0 VNĐ</td>
+                            }
+                            else
+                            {
+                                <td style="color:red">@i.ShipFee.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
+
+                            }
+                            <td>@i.Trangthai</td>
+                            <td style="color:red">@i.Total.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            <td><a asp-controller="OrderManager" asp-action="OrderDetailManager" asp-area="Admin" asp-route-id="@i.IDOrder">Xem chi tiết</a></td>
+                            @if (i.Trangthai.Equals("Đang giao hàng"))
+                            {
+                                <td><a asp-action="Dagiaohang" asp-route-id="@i.IDOrder" asp-controller="OrderManager" asp-area="Admin">Đã giao hàng</a></td>
+                            }
+                            else if (i.Trangthai.Equals("Đã giao hàng"))
+                            {
+                                <td><label>Thành công</label></td>
+                            }
+                            else
+                            {
+                                <td><a asp-action="Xacnhan" asp-route-id="@i.IDOrder" asp-controller="OrderManager" asp-area="Admin">Xác nhận</a></td>
+                            }
+
+                        </tr>
+
+                        total = (total + i.Total.Value + i.ShipFee.Value);
+
+                    }
+                    <tr><td colspan="10"><b style="float: left">Tổng tiền</b> <b style="float:right;color:red">@total.ToString("#,##0").Replace(",", ".") VNĐ</b></td></tr>
+                }
+            </table>
+                    }
+                    else
+                    {
+                        <h3>Không có đơn hàng nào đang chờ </h3>
+                    }
+
+    </div>
+</div>

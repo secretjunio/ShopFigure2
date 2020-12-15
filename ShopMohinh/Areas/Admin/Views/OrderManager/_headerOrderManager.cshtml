@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="container heading">
+    <div class="row">
+        @*<div class="col-md-3">
+                
+         </div>
+        <div class="col-md-9"></div>*@
+        <div class="col-md-3">
+            @{
+                var j = 0;
+                foreach (var i in Model.OrderBills)
+                {
+                    if (i.Trangthai.Equals("Đang xử lý"))
+                    {
+                        j++;
+                    }
+                }
+                var data = "Đang xử lý";
+                <a asp-action="Index" asp-controller="OrderManager" asp-area="Admin" asp-route-id="@data" style="border:2px 2px 2px 2px;border-radius:5px;background-color:rgb(40, 255, 47);color:black;border-color:orangered">Đơn hàng Đang chờ xử lý:@j</a>
+            }
+
+        </div>
+        <div class="col-md-3">
+            @{
+                j = 0;
+                foreach (var i in Model.OrderBills)
+                {
+                    if (i.Trangthai.Equals("Đang giao hàng"))
+                    {
+                        j++;
+                    }
+                }
+                data = "Đang giao hàng";
+                <a asp-action="Index" asp-controller="OrderManager" asp-area="Admin" asp-route-id="@data" style="border:2px 2px 2px 2px;border-radius:5px;background-color:rgb(40, 255, 47);color:black;border-color:orangered">Đơn hàng Đang được giao:@j</a>
+            }
+        </div>
+        <div class="col-md-3">
+            @{
+                j = 0;
+                foreach (var i in Model.OrderBills)
+                {
+                    if (i.Trangthai.Equals("Đã giao hàng"))
+                    {
+                        j++;
+                    }
+                }
+                data = "Đã giao hàng";
+                <a asp-action="Index" asp-controller="OrderManager" asp-area="Admin" asp-route-id="@data" style="border:2px 2px 2px 2px;border-radius:5px;background-color:rgb(40, 255, 47);color:black;border-color:orangered">Đơn hàng đã được giao:@j</a>
+            }
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+</div>

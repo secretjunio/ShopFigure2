@@ -1,0 +1,71 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h1 style="color:black;text-align:center">THỐNG KÊ SẢN PHẨM ĐÃ BÁN</h1>
+        </div>
+        <form action="/Admin/Thongke/LocDaban" method="post" style="width:100%" enctype="multipart/form-data">
+            <table align="center">
+                <tr>
+                    <td>Từ ngày</td>
+                    <td>Đến ngày</td>
+                </tr>
+                <tr>
+
+                    <td><input name="start" value="01/01/2010" type="date" /></td>
+                    <td><input name="end" value="01/01/2021" type="date" /></td>
+                    <td>
+                        <button type="submit">
+                            Lọc
+                        </button>
+                    </td>
+
+                </tr>
+            </table>
+        </form>
+        <style>
+            .title td {
+                color: black;
+                font-weight: bold;
+                padding: 1px 5px 1px 5px;
+                text-align: center;
+            }
+
+            .title {
+                background-color: dodgerblue;
+            }
+        </style>
+        <table align="center" border="1">
+            <tr class="title">
+                <td>ID sản phẩm</td>
+                <td>Tên sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá(VNĐ)</td>
+                <td>Thành tiền(VNĐ)</td>
+                <td>Mô tả</td>
+                <td>Hình ảnh</td>
+            </tr>
+            @{
+                float sum = 0;
+            }
+            @foreach (var i in Model.Products)
+            {
+                <tr>
+                    <td>@i.IDProduct</td>
+                    <td>@i.ProductName</td>
+                    <td>@i.Number</td>
+                    <td style="color:red">@i.Price.ToString("#,##0").Replace(",", ".")</td>
+                    @{
+                        var a = i.Price * i.Number;
+                    }
+                    <td style="color:red">@a.ToString("#,##0").Replace(",", ".")</td>
+                    <td>@i.Describe</td>
+                    <td><img height="100" width="100" src="~/imagesUser/Product/@i.ImagePath" /></td>
+                </tr>
+                sum = sum + a;
+            }
+            <tr><td colspan="7"><b style="float:left">Tổng tiền(VNĐ)</b><b style="float:right;color:red">@sum.ToString("#,##0").Replace(",", ".")</b></td></tr>
+        </table>
+    </div>
+</div>

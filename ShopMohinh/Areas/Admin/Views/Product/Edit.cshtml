@@ -1,0 +1,121 @@
+﻿
+@model ShopMohinh.ViewModel.ModelView
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Chỉnh sửa sản phẩm</h1>
+
+<form action="/Admin/Product/EditProduct" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>ID sản phẩm</td>
+            <td><input name="IDPro" type="text" value="@Model.getProduct.IDProduct" hidden /></td>
+        </tr>
+        <tr>
+            <td>Tên sản phẩm</td>
+            <td><input name="ProductName" type="text" value="@Model.getProduct.ProductName" /></td>
+        </tr>
+        <tr>
+            <td>Ngày ra mắt</td>
+            <td>
+                <input name="ReleaseDate" type="text" value="@Model.getProduct.ReleaseDate" />
+            </td>
+        </tr>
+        <tr>
+            <td>Hình ảnh</td>
+            <td>
+                <input asp-for="@Model.getProduct.ImagePath" value="@Model.getProduct.ImagePath" name="ImagePath" type="file" multiple>
+                <span asp-validation-for="@Model.getProduct.ImagePath"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Hình ảnh 1</td>
+            <td>
+                <input asp-for="@Model.getProduct.Image1" value="@Model.getProduct.Image1" name="Image1" type="file" multiple>
+            </td>
+        </tr>
+        <tr>
+            <td>Hình ảnh 2</td>
+            <td>
+                <input asp-for="@Model.getProduct.Image2" value="@Model.getProduct.Image2" name="Image2" type="file" multiple>
+            </td>
+        </tr>
+        <tr>
+            <td>Hình ảnh 3</td>
+            <td>
+                <input asp-for="@Model.getProduct.Image3" value="@Model.getProduct.Image3" name="Image3" type="file" multiple>
+            </td>
+        </tr>
+        <tr>
+            <td>Đơn giá</td>
+            <td><input name="Price" type="text" width="200" value="@Model.getProduct.Price" /></td>
+        </tr>
+        <tr>
+            <td>Đơn giá</td>
+            <td><input name="NewPrice" type="text" value="@Model.getProduct.NewPrice" /></td>
+        </tr>
+        <tr>
+            <td>Số lượng</td>
+            <td><input name="Number" type="text" width="200" value="@Model.getProduct.Number" /></td>
+        </tr>
+
+        <tr>
+            <td>Mô tả</td>
+            <td><input name="Describe" height="150" width="200" type="text" value="@Model.getProduct.Describe" /></td>
+        </tr>
+        <tr>
+            <td>Thể loại</td>
+            <td>
+                @if (Model.Categories != null)
+                {
+                    <select name="CategoryName">
+                        <option>Vui lòng chọn thể loại</option>
+                        @foreach (Category i in Model.Categories)
+                        {
+                            <option value="@i.CategoryName">@i.CategoryName</option>
+                        }
+                    </select>
+                }
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>Nhà cung cấp</td>
+            <td>
+                @{
+                    if (Model.Suppliers != null)
+                    {
+                        <select name="SupplierName">
+                            @foreach (Supplier i in Model.Suppliers)
+                            {
+                                <option value="@i.SupplierName">@i.SupplierName</option>
+                            }
+                        </select>
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Mới ra mắt</td>
+            <td>
+                <select name="isNew">
+                    <option>
+                        có
+                    </option>
+                    <option>
+                        không
+                    </option>
+                </select>
+            </td>
+        </tr>
+
+        <tr><td colspan="2"><input type="submit" width="200" value="Xác nhận" /></td></tr>
+    </table>
+
+</form>
+
+

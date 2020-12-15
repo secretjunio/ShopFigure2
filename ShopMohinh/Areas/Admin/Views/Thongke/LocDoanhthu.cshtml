@@ -1,0 +1,95 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="color:black;text-align:center">Tổng doanh thu</h1>
+        </div>
+
+    </div>
+    <script>
+        function Validate() {
+            var day1 = document.getElementById("Start").value;
+            var day2 = document.getElementById("End").value;
+            if(day)
+        }
+    </script>
+    <div class="row" style="background-color:rgb(184, 252, 225)">
+
+        <form action="/Admin/Thongke/LocDoanhthu" method="post" style="width:100%" enctype="multipart/form-data">
+            <table align="center">
+                <tr>
+                    <td>Từ ngày</td>
+                    <td>Đến ngày</td>
+                </tr>
+                <tr>
+
+                    <td><input name="start" id="Start" value="01/01/2010" type="date" /></td>
+                    <td><input name="end" id="End" value="01/01/2021" type="date" /></td>
+                    <td>
+                        <button type="submit">
+                            Lọc doanh thu
+                        </button>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>@ViewBag.st</td>
+                    <td>@ViewBag.end</td>
+                </tr>
+            </table>
+        </form>
+        <div class="col-lg-2">
+            ID
+        </div>
+        <div class="col-lg-2">
+            Khách hàng
+        </div>
+        <div class="col-lg-2">
+            Ngày thanh toán
+        </div>
+        <div class="col-lg-2">
+            Địa chỉ giao hàng
+        </div>
+        <div class="col-lg-2">
+            Tổng giá trị
+        </div>
+        <div class="col-lg-2">
+            Trạng thái đơn hàng
+        </div>
+        @{
+            double sum = 0;
+            foreach (var i in Model.OrderBills)
+            {
+                <div class="col-lg-2">
+                    @i.IDOrder
+                </div>
+                <div class="col-lg-2">
+                    @i.FullName
+                </div>
+                <div class="col-lg-2">
+                    @i.OrderDate
+                </div>
+                <div class="col-lg-2">
+                    @i.Address
+                </div>
+                <div class="col-lg-2">
+                    @i.Total
+                </div>
+                <div class="col-lg-2">
+                    @i.Trangthai
+                </div>
+                sum = sum + i.Total.Value;
+            }
+        }
+
+    </div>
+    <div class="row">
+
+        <hr style="width:100%;border:1px 1px 1px 1px" />
+        <div class="col-lg-6" style="color:black;font-weight:bold;text-align:left">Tổng Doanh Thu</div>
+        <div class="col-lg-6" style="color:red;text-align:right">@sum VNĐ</div>
+    </div>
+</div>
+
+
+

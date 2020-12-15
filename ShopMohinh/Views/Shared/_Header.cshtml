@@ -1,0 +1,105 @@
+﻿@{
+    var data = Context.Session.GetString("cart");
+
+    int coutCart = 0;
+    if (data == null)
+    {
+        coutCart = 0;
+    }
+    else
+    {
+        var data2 = Context.Session.GetString("cart");
+        List<CartModel> dataCart = JsonConvert.DeserializeObject<List<CartModel>>(data2);
+
+        coutCart = dataCart.Sum(x => x.Number);
+        //foreach (var item in dataCart)
+        //{
+        //    coutCart += item.Quantity;
+        //}
+
+    }
+}
+<header class="section-header" style="background-image: linear-gradient(to right, #00ffff, #66ffff, #90ffff, #b0ffff, #ccffff); ">
+    <section class="header-main border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-4">
+                    <a asp-action="Index" asp-controller="Home" class="brand-wrap">
+                        <img style="border-radius:30%" class="logo" src="~/imagesUser/logo.jpg">
+                    </a> <!-- brand-wrap.// -->
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <form action="/Home/Find" method="get" class="search">
+                        <div class="input-group w-100">
+                            <input type="text" name="search" class="form-control" placeholder="Nhập từ khoá tìm kiếm...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> <!-- search-wrap .end// -->
+                </div> <!-- col.// -->
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="widgets-wrap float-md-right">
+                        <div class="widget-header mr-3" style="margin-left:-60px">
+                            <a href="/product/listcart" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
+                            <span class="badge badge-pill badge-danger notify">@coutCart</span>
+                            <div class="text" style="margin-top:3px">
+                                <a style="font-family: 'Pacifico', cursive;" href="/product/listcart">Giỏ hàng</a>
+                            </div>
+                        </div>
+
+                        @*@Html.Partial("_LoginPartial")*@
+                        <partial name="_LoginPartial">
+
+                    </div> <!-- widgets-wrap.// -->
+                </div> <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- container.// -->
+    </section> <!-- header-main .// -->
+</header> <!-- section-header.// -->
+
+
+<nav class="navbar navbar-main navbar-expand-lg navbar-light border-bottom" style="background-image: linear-gradient(to left, #ffffff, #fffbff, #fff5f4, #fff6db, #ffffcc); ">
+    <div class="container">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav" style="font-family: 'Pacifico', cursive;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Advertiserment">Giới thiệu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Product">Sản phẩm</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Privacy" asp-controller="Home">Chính sách bảo mật</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Khuyến mãi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tin tức</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> Liên hệ</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Địa chỉ</a>
+                        <a class="dropdown-item" href="#">Số tài khoản</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Hỏi & Đáp</a>
+                        <a class="dropdown-item" href="#">Cách sửa chữa figure</a>
+                        <a class="dropdown-item" href="#">Đặt mua & Thanh toán</a>
+                    </div>
+                </li>
+            </ul>
+        </div> <!-- collapse .// -->
+    </div> <!-- container .// -->
+</nav>

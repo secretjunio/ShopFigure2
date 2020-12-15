@@ -1,0 +1,159 @@
+﻿@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@model CustomerInfoModel
+@{
+    ViewData["Title"] = "Thanh toán";
+    Layout = "_LayoutCheckout";
+}
+
+@{
+    var data2 = Context.Session.GetString("cart");
+    List<CartModel> lstCart = new List<CartModel>();
+    if (data2 != null)
+    {
+        lstCart = JsonConvert.DeserializeObject<List<CartModel>>(data2);
+    }
+    double totalAll = 0;
+}
+
+<div class="container" style="margin-bottom:70px;margin-top:20px">
+    <h1 style="text-align:center;font-weight:bold">THANH TOÁN</h1>
+    <div class="list-cart">
+        <table class="cart table table-bordered table-striped table-light table-hover" style="margin: 0px auto;" border="1">
+            <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Tổng giá</th>
+            </tr>
+            @{  
+                if(lstCart.Count != 0)
+                {
+                    int STT = 0;
+                    foreach (var item in lstCart)
+                    {
+                        string txt_class = "quantity_" + item.Product.IDProduct;
+                        string txt_class_total = "total_" + item.Product.IDProduct;
+                        STT++;
+                        double total = item.Product.NewPrice.Value * item.Number;
+
+                        totalAll = totalAll + total;
+                        <tr>
+                            <td>@STT</td>
+                            <td>@item.Product.ProductName</td>
+                            <td><img src="~/imagesUser/Product/@item.Product.ImagePath" width="100" height="100" /></td>
+                            <td>@item.Number</td>
+                            <td>@item.Product.NewPrice.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            <td id="txt_class_total">@total.ToString("#,##0").Replace(",", ".") VNĐ</td>
+                        </tr>
+                    }
+                }
+            }
+        </table>
+        <p align="right" style="font-weight:bold;font-size:15px;color:red">Tổng tiền: @totalAll.ToString("#,##0").Replace(",", ".") VNĐ</p>
+    </div>
+
+    @if (lstCart.Count != 0)
+    {
+    @using (Html.BeginForm("ToOrder", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        {
+            <input type="hidden" name="@totalAll" />
+            <input type="hidden" name="ShipFee" />
+
+            @Html.HiddenFor(m => m.UserName)
+            @Html.HiddenFor(m => m.CustomerInfoID)
+
+            <div class="row">
+                @if (!SignInManager.IsSignedIn(User)) // tức chưa login
+                {
+                    <div class="col-md-6">
+                        <label>Đã có tài khoản?</label>
+                        <a asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập ngay!</a>
+
+                    </div>
+                }
+            </div>
+
+            <div>
+                <h3 style="text-align:center;font-weight:bold">THÔNG TIN KHÁCH HÀNG</h3>
+                <div class="form-group">
+                    <label>Địa chỉ</label>
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Address, null, new { @class = "validate" })
+                </div>
+
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FullName, null, new { @class = "validate" })
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, null, new { @class = "validate" })
+                </div>
+                <div class="form-group">
+                    <label>Tỉnh thành</label>
+                    @Html.DropDownListFor(m => m.ProviceID, ViewBag.Provices as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ProviceID, null, new { @class = "validate" })
+                </div>
+                <div class="form-group">
+                    <label>Quận huyện</label>
+                    @Html.DropDownListFor(m => m.DistrictID, ViewBag.Districts as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DistrictID, null, new { @class = "validate" })
+                </div>
+                <div class="form-group">
+                    <label>Phường xã</label>
+                    @Html.DropDownListFor(m => m.WardID, ViewBag.Wards as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.WardID, null, new { @class = "validate" })
+                </div>
+            </div>
+            @*<a asp-controller="Product" asp-action="ToOrder" class="btn btn-success">Đặt hàng</a>*@
+            <button type="submit" class="btn btn-primary center-x">ĐẶT HÀNG</button>
+        }
+    }
+    }
+    else
+    {
+        <h1 class="text-danger">Không có sản phẩm nào trong giỏ hàng!</h1>
+    }
+</div>
+
+<script>
+    function ShowLoading() { 
+
+    }
+    function HideLoading() {
+
+    }
+    $(document).ready(function () {
+        $('#ProviceID').change(function () {
+            debugger;
+            ShowLoading();
+            $.getJSON('/Product/AjaxDistrictList/' + $('#ProviceID').val(), function (data) {
+                var items = '<option value=' + 0 + '>--Chọn Quận/Huyện--</option>';
+                $.each(data, function (i, district) {
+                    items += "<option value='" + district.id + "'>" + district.name + "</option>";
+                });
+                $('#DistrictID').html(items);
+                var items2 = '<option value=' + 0 + '>--Chọn Phường/Xã--</option>';
+                $('#WardID').html(items2);
+                HideLoading();
+            });
+        });
+
+        $('#DistrictID').change(function () {
+            $.getJSON('/Product/AjaxWardList/' + $('#DistrictID').val(), function (data) {
+                var items = '<option value=' + 0 + '>--Chọn Phường/Xã--</option>';
+                $.each(data, function (i, ward) {
+                    items += "<option value='" + ward.id + "'>" + ward.name + "</option>";
+                });
+                $('#WardID').html(items);
+            });
+        });
+    });
+</script>

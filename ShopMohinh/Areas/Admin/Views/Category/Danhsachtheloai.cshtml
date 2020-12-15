@@ -1,0 +1,54 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+
+@{
+    ViewData["Title"] = "Danhsachtheloai";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Danhsachtheloai</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="Category">Thêm thể loại</a>
+</p>
+<form>
+    <table border="1" align="center">
+        <tr style="color:red;background-color:antiquewhite">
+            <td width="20">
+                ID
+            </td>
+            <td width="100">Tên thể loại</td>
+            <td width="80">Số lượng</td>
+            <td width="150">Hình ảnh thể loại</td>
+            <td>Mô tả</td>
+            <td width="100">
+                Tuỳ chọn
+            </td>
+        </tr>
+        @{
+            if (Model.Categories == null)
+            {
+                <tr>Không có thể loại</tr>
+            }
+            else
+            {
+                foreach (Category item in Model.Categories)
+                {
+
+                    <tr>
+                        <td>
+                            @item.IDCategory
+                        </td>
+                        <td>@item.CategoryName</td>
+                        <td>@item.Number</td>
+                        <td><img height="200" width="250" src="~/imagesUser/Category/@item.ImagePath" /></td>
+                        <td>@item.Describe</td>
+                        <td>
+                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.IDCategory">Edit</a> |
+                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.IDCategory" onclick="return CheckDelete();">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </table>
+</form>

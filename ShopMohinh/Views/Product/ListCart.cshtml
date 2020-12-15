@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Danh sách các sản phẩm trong giỏ hàng";
+    Layout = "_LayoutCheckout";
+}
+
+@{
+    var lstCart = ViewBag.carts != null ? (List<CartModel>)ViewBag.carts : new List<CartModel>();
+
+}
+
+<div class="container" style="margin-bottom:50px;margin-top:20px">
+    @if (lstCart.Count != 0)
+    {
+        <h3>Danh sách các sản phẩm trong giỏ hàng của bạn</h3>
+        <div class="list-cart">
+            <table class="cart table table-bordered table-striped table-light table-hover" style="margin: 0px auto;" border="1">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng giá</th>
+                    <th>Cập nhật</th>
+                    <th>Xoá</th>
+                </tr>
+                @{
+                    int STT = 0;
+                    foreach (var item in lstCart)
+                    {
+                        string txt_class = "quantity_" + item.Product.IDProduct;
+                        string txt_class_total = "total_" + item.Product.IDProduct;
+                        STT++;
+                        float total = item.Product.NewPrice.Value * item.Number; // phải cho NewPrice được phép null ở trong Product Entity
+                        <tr>
+                            <td>@STT</td>
+                            <td>@item.Product.ProductName</td>
+                            <td><img src="~/imagesUser/Product/@item.Product.ImagePath" width="100" height="100" /></td>
+                            <td><input type="number" class="@txt_class" value="@item.Number" /></td>
+                            <td>@item.Product.NewPrice.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            <td id="txt_class_total">@total.ToString("#,##0").Replace(",", ".") VNĐ</td>
+                            <td align="center"><a href="" data-id="@item.Product.IDProduct" class="updateCart"><i class="fas fa-sync-alt" style="font-size:30px"></i></a></td> <!-- data-id là 1 attribute -->
+                            <td><a asp-controller="Product" asp-action="deleteCart" asp-route-id="@item.Product.IDProduct"><i class="fa fa-trash" style="font-size:30px"></i></a></td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <a style="margin-top:20px" asp-controller="Product" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
+        <a style="margin-top:20px;float:right" class="btn btn-primary" asp-controller="Home" asp-action="index">Quay lại trang chủ để tiếp tục mua hàng</a>
+    }
+    else
+    {
+        <div class="container" style="margin-top:30px;margin-bottom:30px">
+            <h1 class="text-danger">Không có sản phẩm nào trong giỏ hàng!</h1>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="index">Quay lại trang chủ để tiếp tục mua hàng</a>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () { // xử lý Ajax POST của Giỏ hàng nè
+        $(".updateCart").click(function (event) {
+            debugger; // t đặt debug để t test thôi
+            event.preventDefault();
+            var quantity = $(".quantity_" + $(this).attr("data-id")).val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("updateCart","Product")",
+                data:
+                {
+                    Id: $(this).attr("data-id"),
+                    Quantity:quantity
+                },
+                success: function (result) {
+                    debugger; // t đặt debug để t test thôi
+                    window.location.href = '@Url.Action("ListCart","Product")';
+                }
+            });
+        });
+    });
+</script>

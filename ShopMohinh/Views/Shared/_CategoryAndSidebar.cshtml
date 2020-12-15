@@ -1,0 +1,64 @@
+﻿<!-- ========================= SECTION MAIN ========================= -->
+@model ShopMohinh.ViewModel.ModelView
+        <section class="section-main bg padding-y" style="background-image: linear-gradient(to right, #fffff0, #fffcf4, #fffcfc, #fffeff, #ffffff);">
+            <div class="container">
+
+                <div class="row">
+                    <aside class="col-md-3">
+                        <nav class="card">
+                            <ul class="menu-category">
+                                @*<li><a asp-action="Index" asp-controller="Home">TẤT CẢ</a></li>*@
+
+                                    @foreach (Category item in Model.Categories)
+                                    {
+                                        if (item.ParentIDCategory == 0)
+                                        {
+                                            <li>
+                                                <a class="fas fa-folder-open" asp-controller="Product" asp-action="Sort" asp-route-id="@item.IDCategory"> @item.CategoryName</a>
+                                                <ul class="submenu">
+                                                    @foreach (var i in Model.Categories)
+                                                    {
+                                                        @if (i.ParentIDCategory == item.IDCategory)
+                                                        {
+                                                            <li><a asp-controller="Product" asp-action="Sort" asp-route-id="@i.IDCategory"><i class="fa fa-folder"></i><b> @i.CategoryName </b></a></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }                                
+                            </ul>
+                        </nav>
+                    </aside> <!-- col.// -->
+                    <div class="col-md-9">
+                        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner banner-wrap" role="listbox">
+                                <div class="carousel-item rounded active">
+                                    <img class="d-block img-fluid" src="~/imagesUser/SlideShow/sh4.jpg" alt="First slide" title="First Slide">
+                                </div>
+                                <div class="carousel-item rounded">
+                                    <img class="d-block img-fluid" src="~/imagesUser/SlideShow/sh2.jpg" alt="Second slide" title="Second Slide">
+                                </div>
+                                <div class="carousel-item rounded">
+                                    <img class="d-block img-fluid" src="~/imagesUser/SlideShow/sh3.jpg" alt="Third slide" title="Third Slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div> <!-- col.// -->
+                </div> <!-- row.// -->
+            </div> <!-- container //  -->
+        </section>
+        <!-- ========================= SECTION MAIN END// ========================= -->

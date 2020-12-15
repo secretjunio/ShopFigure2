@@ -1,0 +1,35 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+
+<div align="center" class="container">
+    <h2>CHI TIẾT ĐƠN HÀNG</h2>
+    @if (Model.getOrderBill != null)
+    {
+<table>
+    <tr>
+        <td>IDHĐ</td>
+        <td>Số Lượng</td>
+        <td>Mô tả</td>
+        <td>Tổng tiền</td>
+        <td>Tên Sản phẩm</td>
+        <td>Đơn giá</td>
+        <td>Ngày cập nhập</td>
+        <td>Ngày đặt hàng</td>
+    </tr>
+    @foreach (var i in Model.OrderDetails)
+    {
+        <tr>
+            <td>@i.IDOrder</td>
+            <td>@i.Number</td>
+            <td>@i.Describe</td>
+            <td>@i.TotalPrice</td>
+            <td>@i.ProductName</td>
+            <td>@i.Price</td>
+            <td>@i.UpdateDate</td>
+            <td>@i.CreateDate</td>
+        </tr>
+    }
+
+</table>
+    }
+
+</div>

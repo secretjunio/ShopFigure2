@@ -1,0 +1,74 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+@{
+    ViewData["Title"] = "Sort";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <a href="#" class="btn btn-outline-primary float-right">Xem tất cả</a>
+
+            <h3 style="text-align:center">@Model.getCategory.CategoryName</h3>
+
+        </header><!-- sect-heading -->
+        <div class="row">
+            @if (Model.Products == null)
+            {
+                <b>Không có sản phẩm nào</b>
+            }
+            else
+            {
+                if (Model.getCategory.ParentIDCategory == 0)//nếu thể loại được chọn là thằng cha
+                {
+                    foreach (var j in Model.Categories)
+                    {
+                        if (j.ParentIDCategory == Model.getCategory.IDCategory)//duyệt tìm xem những đứa nào là con của thằng cha
+                        {
+                            foreach (var item in Model.Products)
+                            {
+                                if (item.IDCategory == j.IDCategory)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="card card-product-grid">
+                                            <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.IDProduct" class="img-wrap"> <img src="~/imagesUser/Product/@item.ImagePath" title="Nhấn vào đây để xem chi tiết!"> </a>
+                                            <figcaption class="info-wrap">
+                                                <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.IDProduct" class="title">@item.ProductName</a>
+                                                <div class="price mt-1">$@item.Price</div> <!-- price-wrap.// -->
+                                            </figcaption>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else//ngược lại, nếu thể loại được chọn là 1 thằng con nào đó
+                {
+                    foreach (var item in Model.Products)
+                    {
+                        if (item.IDCategory == Model.getCategory.IDCategory)
+                        {
+                            <div class="col-md-3">
+                                <div class="card card-product-grid">
+                                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.IDProduct" class="img-wrap"> <img src="~/imagesUser/Product/@item.ImagePath" title="Nhấn vào đây để xem chi tiết!"> </a>
+                                    <figcaption class="info-wrap">
+                                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.IDProduct" class="title">@item.ProductName</a>
+                                        <div class="price mt-1">$@item.Price</div> <!-- price-wrap.// -->
+                                    </figcaption>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                }
+
+                @*@Html.PartialAsync("_ProductItem",);*@
+
+            }
+        </div> <!-- row.// -->
+    </div>
+</section>
+
+

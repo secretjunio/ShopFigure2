@@ -1,0 +1,30 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+@{
+    ViewData["Title"] = "Tìm kiếm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <div style="text-align:center">
+            <h1>Tìm kiếm sản phẩm</h1>
+            <div class="row">
+                @if (Model != null)
+                {
+                    foreach (var i in Model.Products)
+                    {
+                        <div class="col-md-3">
+                            <div class="card card-product-grid">
+                                <a asp-controller="Product" asp-action="Detail" asp-route-id="@i.IDProduct" class="img-wrap"> <img src="~/imagesUser/Product/@i.ImagePath" title="Nhấn vào đây để xem chi tiết!"> </a>
+                                <figcaption class="info-wrap">
+                                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@i.IDProduct" class="title">@i.ProductName</a>
+                                    <div class="price mt-1">@i.Price.ToString("#,##0").Replace(",", ".") VNĐ</div> <!-- price-wrap.// -->
+                                </figcaption>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            
+        </div>
+    </div>
+</section>
