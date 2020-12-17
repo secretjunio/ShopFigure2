@@ -428,8 +428,8 @@ namespace ShopMohinh.Controllers
                     OrdersDetailModel.Number = dataCart[i].Number;
                     OrdersDetailModel.Price = dataCart[i].Product.Price;
                     OrdersDetailModel.ColorSize = "";
-                    OrdersDetailModel.TotalPrice = dataCart[i].Number * dataCart[i].Product.Price;
-                    _db.OrderDetails.Add(OrdersDetailModel);
+                    
+                    
                     TOTAL = (float)(TOTAL + OrdersDetailModel.TotalPrice);
                     if (TOTAL >= 500000)
                     {
@@ -439,6 +439,8 @@ namespace ShopMohinh.Controllers
                     {
                         OrdersModel.ShipFee = 50000;
                     }
+                    OrdersDetailModel.TotalPrice = dataCart[i].Number * dataCart[i].Product.Price+OrdersModel.ShipFee.Value;
+                    _db.OrderDetails.Add(OrdersDetailModel);
                     OrdersModel.Total = TOTAL;
 
                     /*

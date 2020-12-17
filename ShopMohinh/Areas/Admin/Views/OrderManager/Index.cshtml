@@ -33,16 +33,9 @@
                             <td>@i.Phone</td>
                             <td>@i.Address</td>
                             <td>@i.OrderDate</td>
-                            @if (i.ShipFee == 0)
-                            {
-                                <td style="color:red">0 VNĐ</td>
-                            }
-                            else
-                            {
-                                <td style="color:red">@i.ShipFee.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
-
-                            }
+                            <td>@i.ShipFee.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
                             <td>@i.Trangthai</td>
+                           
                             <td style="color:red">@i.Total.Value.ToString("#,##0").Replace(",", ".") VNĐ</td>
                             <td><a asp-controller="OrderManager" asp-action="OrderDetailManager" asp-area="Admin" asp-route-id="@i.IDOrder">Xem chi tiết</a></td>
                             @if (i.Trangthai.Equals("Đang giao hàng"))
@@ -60,7 +53,7 @@
 
                         </tr>
 
-                        total = (total + i.Total.Value + i.ShipFee.Value);
+                        total = total;
 
                     }
                     <tr><td colspan="10"><b style="float: left">Tổng tiền</b> <b style="float:right;color:red">@total.ToString("#,##0").Replace(",", ".") VNĐ</b></td></tr>
