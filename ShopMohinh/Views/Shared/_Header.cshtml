@@ -1,4 +1,6 @@
-﻿@{
+﻿@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
     var data = Context.Session.GetString("cart");
 
     int coutCart = 0;
@@ -99,6 +101,11 @@
                         <a class="dropdown-item" href="#">Đặt mua & Thanh toán</a>
                     </div>
                 </li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li><a asp-action="History" asp-controller="Product" asp-area="" asp-route-id="@UserManager.GetUserName(User)">Lịch sử mua hàng</a></li>
+                }
+
             </ul>
         </div> <!-- collapse .// -->
     </div> <!-- container .// -->

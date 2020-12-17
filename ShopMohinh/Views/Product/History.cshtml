@@ -1,0 +1,63 @@
+﻿@model ShopMohinh.ViewModel.ModelView
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 style="text-align:center">Lịch sử mua hàng</h1>
+        </div>
+    </div>
+    <hr />
+    <table align="center">
+        <tr>
+            <td>Tên sản phẩm</td>
+            <td>Ngày mua</td>
+            <td>Số lượng</td>
+            <td>Đơn giá</td>
+            <td>Thành tiền(VNĐ)</td>
+            <td>Mô tả</td>
+        </tr>
+        @{ 
+            float sum = 0;
+        }
+        @foreach (var i in Model.OrderDetails)
+        {
+            float a = 0;
+            a = i.Number * (float)i.Price.Value;
+            <tr>
+                @foreach (var j in Model.Products)
+                {
+                    if (j.IDProduct == i.IDProduct)
+                    {
+                        <td>@j.ProductName</td>
+                    }
+                }
+                @foreach (var j in Model.OrderBills)
+                {
+                    if (j.IDOrder == i.IDOrder)
+                    {
+                        <td>@j.OrderDate</td>
+                    }
+                }
+                <td>@i.Number</td>
+                <td>@i.Price.Value</td>
+
+                <td>@a</td>
+                <td>@i.Describe</td>
+            </tr>
+            sum= sum + a;
+        }
+        <tr><td colspan="6"><hr /></td></tr>
+        <tr><td colspan="6"><b style="float:left">tổng giá trị(VNĐ)</b><b style="float:right;color:red">@sum</b></td></tr>
+    </table>
+</div>
+<style>
+    table{
+        width:100%;
+        height:auto;
+
+    }
+    table tr td{
+        width:50px;
+
+    }
+</style>

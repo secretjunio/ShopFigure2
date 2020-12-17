@@ -29,9 +29,11 @@ namespace ShopMohinh.Controllers
         private readonly IMailService mailService; // mới nè, của mail nè
         private readonly IWebHostEnvironment _env; // mới nè
         private readonly IOrderBillRepository orderBillRepository;
+        private readonly IOrderDetailRepository orderDetailRepository;
         public ProductController(IMapper mapper, IProductRepository ProductRepository,
             ISupplierRepository SupplierRepository, ICategoryRepository CategoryRepository,
-            EFContext dbcontext, IMailService mailService, IWebHostEnvironment env, IOrderBillRepository orderBillRepository)
+            EFContext dbcontext, IMailService mailService, IWebHostEnvironment env, IOrderBillRepository orderBillRepository,
+            IOrderDetailRepository orderDetailRepository)
         {
             this.ProductRepository = ProductRepository;
             this.SupplierRepository = SupplierRepository;
@@ -40,6 +42,7 @@ namespace ShopMohinh.Controllers
             this._mapper = mapper;
             this.mailService = mailService; // đưa nó vào hàm khởi tạo đó nha
             _env = env;
+            this.orderDetailRepository = orderDetailRepository;
             this.orderBillRepository = orderBillRepository;
         }
 
@@ -468,5 +471,35 @@ namespace ShopMohinh.Controllers
             var data = _db.CT_Wards.Where(m => m.DistrictID == Id.ToString()).ToList();
             return Json(data);
         }
+
+    
+        public IActionResult History(string username)
+        {
+            var ODs = new List<OrderDetail>();
+            foreach( var j in orderBillRepository.OrderBills())
+            {
+                if (j.UserName.Equals(username)&&j.Trangthai.Equals("Đã giao hàng"))
+                {
+                    foreach (var i in orderDetailRepository.OrderDetails())
+                    {
+                        if (i.IDOrder == j.IDOrder)
+                        {
+                            ODs.Add(i);
+                            
+                        }
+                    }
+                }
+            }
+            ModelView m = new ModelView()
+            {
+                Products = ProductRepository.Products(),
+                OrderDetails = ODs,
+                Categories = CategoryRepository.Categories(),
+                OrderBills=orderBillRepository.OrderBills(),
+                
+            };
+            return View(m);
+        }
+      
     }
 }
