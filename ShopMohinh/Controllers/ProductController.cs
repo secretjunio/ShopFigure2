@@ -122,8 +122,7 @@ namespace ShopMohinh.Controllers
             body += " </table>";
             return body;
         }
-
-
+       
         public IActionResult Detail(int id)
         {
             Product P = ProductRepository.findByID(id); //getDetailProduct(id);

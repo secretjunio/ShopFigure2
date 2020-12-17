@@ -69,6 +69,7 @@ namespace ShopMohinh.Controllers
         [HttpGet]
         public IActionResult Find(string search)
         {
+
             var P = new List<Product>();
             if (search != null)
             {
@@ -85,7 +86,7 @@ namespace ShopMohinh.Controllers
             ModelView m = new ModelView()
             {
                 Products = P,
-                
+                Categories = CategoryRepository.Categories()
             };
             return View(m);
         } 
