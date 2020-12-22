@@ -103,7 +103,7 @@
                 </li>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <li><a asp-action="History" asp-controller="Product" asp-area="" asp-route-id="@UserManager.GetUserName(User)">Lịch sử mua hàng</a></li>
+                    <li><a asp-action="History" asp-controller="Product" asp-area="" asp-route-username="@UserManager.GetUserName(User)">Lịch sử mua hàng</a></li>
                 }
 
             </ul>

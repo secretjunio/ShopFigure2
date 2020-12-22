@@ -125,7 +125,7 @@ namespace ShopMohinh.Controllers
             body += " </table>";
             return body;
         }
-       
+
         public IActionResult Detail(int id)
         {
             Product P = ProductRepository.findByID(id); //getDetailProduct(id);
@@ -261,7 +261,7 @@ namespace ShopMohinh.Controllers
                             }
                         }
 
-                        
+
                     }
                 }
 
@@ -428,8 +428,8 @@ namespace ShopMohinh.Controllers
                     OrdersDetailModel.Number = dataCart[i].Number;
                     OrdersDetailModel.Price = dataCart[i].Product.Price;
                     OrdersDetailModel.ColorSize = "";
-                    
-                    
+
+
                     TOTAL = (float)(TOTAL + OrdersDetailModel.TotalPrice);
                     if (TOTAL >= 500000)
                     {
@@ -439,7 +439,7 @@ namespace ShopMohinh.Controllers
                     {
                         OrdersModel.ShipFee = 50000;
                     }
-                    OrdersDetailModel.TotalPrice = dataCart[i].Number * dataCart[i].Product.Price+OrdersModel.ShipFee.Value;
+                    OrdersDetailModel.TotalPrice = dataCart[i].Number * dataCart[i].Product.Price + OrdersModel.ShipFee.Value;
                     _db.OrderDetails.Add(OrdersDetailModel);
                     OrdersModel.Total = TOTAL;
 
@@ -450,11 +450,11 @@ namespace ShopMohinh.Controllers
                     dataCart[i] ==0 
                      */
                 }
-              
-                    _db.OrderBills.Add(OrdersModel);
-                    _db.SaveChanges(); /// lưu thông tin xuống db
-                    HttpContext.Session.Remove("cart");
-              
+
+                _db.OrderBills.Add(OrdersModel);
+                _db.SaveChanges(); /// lưu thông tin xuống db
+                HttpContext.Session.Remove("cart");
+
             }
             //Clear Cart
             // xoá session
@@ -474,20 +474,20 @@ namespace ShopMohinh.Controllers
             return Json(data);
         }
 
-    
+
         public IActionResult History(string username)
         {
             var ODs = new List<OrderDetail>();
-            foreach( var j in orderBillRepository.OrderBills())
+            foreach (var j in orderBillRepository.OrderBills())
             {
-                if (j.UserName.Equals(username)&&j.Trangthai.Equals("Đã giao hàng"))
+                if (j.UserName.Equals(username) && j.Trangthai.Equals("Đã giao hàng"))
                 {
                     foreach (var i in orderDetailRepository.OrderDetails())
                     {
                         if (i.IDOrder == j.IDOrder)
                         {
                             ODs.Add(i);
-                            
+
                         }
                     }
                 }
@@ -497,11 +497,11 @@ namespace ShopMohinh.Controllers
                 Products = ProductRepository.Products(),
                 OrderDetails = ODs,
                 Categories = CategoryRepository.Categories(),
-                OrderBills=orderBillRepository.OrderBills(),
-                
+                OrderBills = orderBillRepository.OrderBills(),
+
             };
             return View(m);
         }
-      
+
     }
 }
